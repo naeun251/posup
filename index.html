@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>포스업 | 스마트한 POS 솔루션</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Noto Sans KR', sans-serif; background: #F7F1E8; color: #2A2019; }
+    a { text-decoration: none; color: inherit; }
+    
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+    
+    /* Header Navigation */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(247, 241, 232, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(42, 32, 25, 0.08);
+    }
+    
+    .header-content {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 32px;
+    }
+    
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-badge {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      background: #C1392B;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-badge div {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+      background: #F7F1E8;
+    }
+    .logo-text {
+      font-size: 20px; font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+    
+    nav { display: flex; align-items: center; gap: 36px; }
+    nav a { 
+      color: #2A2019; font-size: 15px; font-weight: 500;
+      opacity: 0.75; transition: opacity 0.3s;
+    }
+    nav a:hover { opacity: 1; }
+    
+    .cta-btn {
+      background: #2A2019; color: #F7F1E8;
+      font-size: 14.5px; font-weight: 700;
+      padding: 11px 20px; border-radius: 100px;
+      white-space: nowrap; flex-shrink: 0;
+      border: none; cursor: pointer;
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 96px 32px 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+    }
+    
+    .hero-text {}
+    
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(42, 32, 25, 0.14);
+      color: #2A2019; font-size: 13px; font-weight: 600;
+      padding: 7px 14px; border-radius: 100px;
+      margin-bottom: 24px; white-space: nowrap;
+    }
+    
+    .hero-badge span {
+      width: 6px; height: 6px;
+      border-radius: 50%; background: #C1392B;
+    }
+    
+    h1 {
+      font-size: 48px; line-height: 1.28;
+      font-weight: 900; letter-spacing: -1px;
+      margin: 0 0 20px;
+    }
+    
+    h1 .accent { color: #C1392B; }
+    
+    .hero p {
+      font-size: 16.5px; line-height: 1.75;
+      color: rgba(42, 32, 25, 0.65);
+      margin: 0 0 34px; max-width: 440px;
+    }
+    
+    .hero-actions {
+      display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 34px;
+    }
+    
+    .btn {
+      font-size: 15.5px; font-weight: 700;
+      padding: 16px 30px; border-radius: 10px;
+      border: none; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .btn:hover { transform: translateY(-2px); }
+    
+    .btn-primary {
+      background: #C1392B; color: #fff;
+    }
+    
+    .btn-secondary {
+      background: #fff; color: #2A2019;
+      border: 1px solid rgba(42, 32, 25, 0.14);
+    }
+    
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      margin-top: 52px; padding-top: 28px;
+      border-top: 1px solid rgba(42, 32, 25, 0.1);
+    }
+    
+    .stat { }
+    .stat-num { font-size: 24px; font-weight: 900; }
+    .stat-label { font-size: 13px; color: rgba(42, 32, 25, 0.5); margin-top: 4px; }
+    
+    .hero-image-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 24px 48px rgba(42, 32, 25, 0.16);
+      border: 1px solid rgba(42, 32, 25, 0.08);
+      height: 500px;
+    }
+    
+    .hero-images-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .hero-image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      top: 0;
+      left: 0;
+    }
+    
+    .hero-image.active {
+      opacity: 1;
+      position: relative;
+    }
+    
+    .hero-image-dots {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+    
+    .hero-image-dots .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 253, 249, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .hero-image-dots .dot.active {
+      background: rgba(255, 253, 249, 0.95);
+      width: 24px;
+      border-radius: 4px;
+    }
+    
+    .hero-badge-bottom {
+      position: absolute; bottom: 20px; left: 20px; right: 20px;
+      background: rgba(255, 253, 249, 0.97);
+      border-radius: 12px; padding: 15px 18px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .hero-badge-bottom span { width: 7px; height: 7px; border-radius: 50%; background: #C1392B; }
+    .hero-badge-bottom-text { font-size: 13.5px; font-weight: 700; }
+    .hero-badge-bottom-sub { font-size: 12px; color: rgba(42, 32, 25, 0.55); }
+    
+    /* Trust Strip */
+    .trust-strip {
+      max-width: 1180px; margin: 110px auto 0;
+      padding: 0 32px;
+    }
+    
+    .trust-content {
+      border-top: 1px solid rgba(42, 32, 25, 0.1);
+      border-bottom: 1px solid rgba(42, 32, 25, 0.1);
+      padding: 22px 0;
+      display: flex; justify-content: space-around;
+      flex-wrap: wrap; gap: 16px;
+    }
+    
+    .trust-item {
+      font-size: 14px; font-weight: 600;
+      color: rgba(42, 32, 25, 0.5);
+      display: flex; align-items: center; gap: 8px;
+    }
+    
+    .trust-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%; background: #C1392B;
+    }
+    
+    /* Products Section */
+    #products {
+      max-width: 1180px; margin: 0 auto;
+      padding: 120px 32px 40px;
+    }
+    
+    .section-header {
+      text-align: center; margin-bottom: 60px;
+    }
+    
+    .section-label {
+      font-size: 14px; font-weight: 700;
+      color: #C1392B; letter-spacing: 0.4px;
+      margin-bottom: 12px;
+    }
+    
+    h2 {
+      font-size: 38px; font-weight: 900;
+      letter-spacing: -0.8px; margin: 0 0 16px;
+    }
+    
+    .section-desc {
+      font-size: 16px; color: rgba(42, 32, 25, 0.6);
+      margin: 0;
+    }
+    
+    .products-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+    
+    .product-card {
+      background: #FFFDF9;
+      border: 1px solid rgba(42, 32, 25, 0.08);
+      border-radius: 20px; padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    
+    .product-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    
+    .product-icon div {
+      background: #fff; opacity: 0.95;
+    }
+    
+    .product-card h3 {
+      font-size: 19px; font-weight: 700;
+      margin: 0 0 8px;
+    }
+    
+    .product-card p {
+      font-size: 14.5px; line-height: 1.6;
+      color: rgba(42, 32, 25, 0.6);
+      margin: 0;
+    }
+    
+    .product-tag {
+      margin-top: auto; padding-top: 14px;
+      border-top: 1px solid rgba(42, 32, 25, 0.07);
+      font-size: 13px; font-weight: 700;
+      color: #8B5E3C;
+    }
+    
+    /* Reviews Section */
+    #reviews {
+      background: #2A2019; margin-top: 120px;
+      padding: 110px 32px;
+    }
+    
+    .reviews-wrapper {
+      max-width: 1180px; margin: 0 auto;
+    }
+    
+    .reviews-header {
+      text-align: center; margin-bottom: 56px;
+      display: none;
+    }
+    
+    .reviews-header .section-label {
+      color: #FFB088;
+    }
+    
+    .reviews-header h2 {
+      color: #F7F1E8;
+    }
+    
+    .reviews-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 24px;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .review-card {
+      background: #3A2E24; border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    
+    .review-image {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #8B5E3C, #6B4423);
+    }
+    
+    .review-carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(193, 57, 43, 0.85);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+      transition: all 0.3s ease;
+    }
+    
+    .review-carousel-btn:hover {
+      background: rgba(193, 57, 43, 1);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .review-carousel-btn.prev {
+      left: 20px;
+    }
+    
+    .review-carousel-btn.next {
+      right: 20px;
+    }
+    
+    .review-images-slider {
+      display: none;
+    }
+    
+    .review-images {
+      display: none;
+    }
+    
+    .review-content {
+      padding: 26px 24px;
+    }
+    
+    .review-stars {
+      display: flex; gap: 2px; margin-bottom: 14px;
+    }
+    
+    .review-stars span {
+      color: #FFB088; font-size: 14px;
+    }
+    
+    .review-quote {
+      font-size: 14.5px; line-height: 1.7;
+      color: rgba(247, 241, 232, 0.85);
+      margin: 0 0 18px;
+    }
+    
+    .review-business {
+      font-size: 13.5px; font-weight: 700;
+      color: #F7F1E8;
+    }
+    
+    .review-owner {
+      font-size: 12.5px;
+      color: rgba(247, 241, 232, 0.5);
+      margin-top: 2px;
+    }
+    
+    /* Pricing Section */
+    #pricing {
+      max-width: 1180px; margin: 0 auto;
+      padding: 120px 32px 40px;
+    }
+    
+    .pricing-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(193, 57, 43, 0.08);
+      color: #8B5E3C; font-size: 15px; font-weight: 700;
+      padding: 12px 22px; border-radius: 100px;
+      margin: 36px 0 48px;
+    }
+    
+    .pricing-badge span {
+      width: 8px; height: 8px;
+      border-radius: 50%; background: #8B5E3C;
+    }
+    
+    .pricing-center {
+      text-align: center;
+    }
+    
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    
+    .pricing-card {
+      background: #FFFDF9;
+      border: 1px solid rgba(42, 32, 25, 0.08);
+      border-radius: 20px; padding: 30px 24px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    
+    .pricing-name {
+      font-size: 15.5px; font-weight: 700;
+      color: #2A2019;
+    }
+    
+    .pricing-desc {
+      font-size: 12.5px;
+      color: rgba(42, 32, 25, 0.55);
+      margin-bottom: 14px;
+    }
+    
+    .pricing-price {
+      display: flex; align-items: baseline;
+      gap: 4px; margin-top: auto;
+      white-space: nowrap;
+    }
+    
+    .pricing-amount {
+      font-size: 26px; font-weight: 900;
+      color: #C1392B;
+    }
+    
+    .pricing-unit {
+      font-size: 13px; color: rgba(42, 32, 25, 0.5);
+    }
+    
+    .pricing-note {
+      text-align: center; margin-top: 32px;
+      font-size: 14px; color: rgba(42, 32, 25, 0.5);
+    }
+    
+    /* FAQ Section */
+    #faq {
+      max-width: 800px; margin: 0 auto;
+      padding: 120px 32px 40px;
+    }
+    
+    .faq-container {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    
+    .faq-item {
+      background: #FFFDF9;
+      border: 1px solid rgba(42, 32, 25, 0.08);
+      border-radius: 16px; overflow: hidden;
+    }
+    
+    .faq-question {
+      padding: 22px 24px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 15.5px; font-weight: 700;
+      user-select: none;
+    }
+    
+    .faq-icon {
+      font-size: 20px; font-weight: 400;
+      color: #C1392B;
+      transition: transform 0.2s;
+    }
+    
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+    
+    .faq-answer {
+      display: none;
+      padding: 0 24px 22px;
+      font-size: 14.5px; line-height: 1.7;
+      color: rgba(42, 32, 25, 0.65);
+    }
+    
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      max-width: 1180px; margin: 120px auto 0;
+      padding: 0 32px;
+    }
+    
+    .cta-box {
+      background: #C1392B; border-radius: 32px;
+      padding: 72px 60px;
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      gap: 40px; align-items: center;
+      overflow: hidden; position: relative;
+    }
+    
+    .cta-box::before {
+      content: '';
+      position: absolute; right: -60px; top: -60px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    .cta-text {
+      position: relative;
+    }
+    
+    .cta-text h2 {
+      font-size: 36px; font-weight: 900;
+      color: #fff; margin: 0 0 16px;
+      letter-spacing: -0.7px;
+    }
+    
+    .cta-text p {
+      font-size: 15.5px;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+    }
+    
+    .cta-form {
+      position: relative;
+      background: #FFFDF9; border-radius: 20px;
+      padding: 28px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    
+    .cta-form input {
+      border: 1px solid rgba(42, 32, 25, 0.14);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14.5px; font-family: inherit;
+    }
+    
+    .cta-form button {
+      background: #2A2019; color: #fff;
+      border: none; border-radius: 10px;
+      padding: 15px;
+      font-size: 15.5px; font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    
+    /* Footer */
+    footer {
+      max-width: 1180px; margin: 0 auto;
+      padding: 64px 32px 40px;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    
+    .footer-left {
+      display: flex; align-items: center; gap: 8px;
+    }
+    
+    .footer-badge {
+      width: 26px; height: 26px;
+      border-radius: 7px; background: #C1392B;
+    }
+    
+    .footer-text { font-size: 16px; font-weight: 900; }
+    
+    .footer-middle {
+      font-size: 13px;
+      color: rgba(42, 32, 25, 0.5);
+    }
+    
+    .footer-right {
+      font-size: 13px;
+      color: rgba(42, 32, 25, 0.4);
+    }
+    
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: repeat(7, 1fr); }
+      .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-box { grid-template-columns: 1fr; }
+      nav { gap: 16px; }
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 32px; }
+      h2 { font-size: 28px; }
+      .products-grid { grid-template-columns: 1fr; }
+      .reviews-grid { grid-template-columns: repeat(7, 1fr); }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: 1fr; }
+      nav { flex-direction: column; gap: 8px; }
+      footer { flex-direction: column; text-align: center; }
+      .review-carousel-btn { width: 40px; height: 40px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+    <div class="logo">
+      <div class="logo-badge"><div></div></div>
+      <div class="logo-text">포스업</div>
+    </div>
+    <nav>
+      <a href="#products">제품소개</a>
+      <a href="#reviews">매장후기</a>
+      <a href="#pricing">가격안내</a>
+      <a href="#faq">FAQ</a>
+      <button class="cta-btn" onclick="document.getElementById('cta').scrollIntoView({behavior: 'smooth'});">무료 상담 신청</button>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">
+      <span></span>
+      설치비 0원 · 전국 출장 설치
+    </div>
+    <h1>사장님 매장에 맞는<br><span class="accent">합리적인 포스</span>, 포스업</h1>
+    <p>카페, 식당, 바까지 — 업종에 상관없이 필요한 만큼만 구성하는 POS·카드결제·키오스크 통합 솔루션. 초기 비용 부담 없이 오늘부터 시작하세요.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="document.getElementById('cta').scrollIntoView({behavior: 'smooth'});">무료 상담 신청</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('pricing').scrollIntoView({behavior: 'smooth'});">가격 보기</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">2,400+</div>
+        <div class="stat-label">도입 매장 수</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">0원</div>
+        <div class="stat-label">설치·출장비</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">365일</div>
+        <div class="stat-label">기술지원</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-image-wrapper">
+    <div class="hero-images-container">
+      <img src="image/1.png" alt="Coffee Shop" class="hero-image active">
+      <img src="image/2.png" alt="Coffee Shop" class="hero-image">
+      <img src="image/3.png" alt="Coffee Shop" class="hero-image">
+    </div>
+    <div class="hero-image-dots">
+      <span class="dot active" onclick="showHeroImage(0)"></span>
+      <span class="dot" onclick="showHeroImage(1)"></span>
+      <span class="dot" onclick="showHeroImage(2)"></span>
+    </div>
+    <div class="hero-badge-bottom">
+      <span></span>
+      <div>
+        <div class="hero-badge-bottom-text">Coffee shop · POS + 카드결제 도입</div>
+        <div class="hero-badge-bottom-sub">주문·결제 대기시간 40% 단축</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Strip -->
+<div class="trust-strip">
+  <div class="trust-content">
+    <div class="trust-item"><div class="trust-dot"></div> 전국 무료 출장 설치</div>
+    <div class="trust-item"><div class="trust-dot"></div> 365일 기술지원</div>
+    <div class="trust-item"><div class="trust-dot"></div> 2,400+ 도입 매장</div>
+    <div class="trust-item"><div class="trust-dot"></div> 위약금 없는 이용</div>
+  </div>
+</div>
+
+<!-- Products Section -->
+<section id="products">
+  <div class="section-header">
+    <div class="section-label">PRODUCT</div>
+    <h2>필요한 장비만 골라 구성하세요</h2>
+    <p class="section-desc">POS부터 카드단말기, 키오스크까지 매장 규모에 맞게 조합 가능합니다</p>
+  </div>
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-icon" style="background: #8B5E3C;">
+        <div style="width: 26px; height: 20px; border-radius: 4px;"></div>
+      </div>
+      <h3>포스(POS) 단말기</h3>
+      <p>주문·결제·매출관리를 한 화면에서. 키오스크형 스탠드 포함.</p>
+      <div class="product-tag">전 업종 필수 장비</div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-icon" style="background: #C1392B;">
+        <div style="width: 22px; height: 26px; border-radius: 5px;"></div>
+      </div>
+      <h3>카드결제 단말기</h3>
+      <p>유선·무선·휴대형 중 매장 동선에 맞게 선택. 블루투스 연결도 지원.</p>
+      <div class="product-tag">휴대형/블루투스 지원</div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-icon" style="background: #2A2019;">
+        <div style="width: 24px; height: 24px; border-radius: 50%;"></div>
+      </div>
+      <h3>무인 키오스크</h3>
+      <p>고객이 직접 주문·결제하는 셀프오더 키오스크로 대기줄을 줄여보세요.</p>
+      <div class="product-tag">인건비 절감</div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-icon" style="background: #8B5E3C;">
+        <div style="width: 24px; height: 18px; border-radius: 4px;"></div>
+      </div>
+      <h3>테이블오더</h3>
+      <p>테이블에서 바로 주문·결제. 홀 서빙 동선을 최소화합니다.</p>
+      <div class="product-tag">홀 회전율 개선</div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-icon" style="background: #C1392B;">
+        <div style="width: 22px; height: 22px; border-radius: 6px;"></div>
+      </div>
+      <h3>토스페이 결제기</h3>
+      <p>토스페이 등 간편결제 연동으로 결제 대기시간을 단축합니다.</p>
+      <div class="product-tag">간편결제 연동</div>
+    </div>
+    
+    <div class="product-card">
+      <div class="product-icon" style="background: #2A2019;">
+        <div style="width: 20px; height: 26px; border-radius: 3px;"></div>
+      </div>
+      <h3>프린터 · 영수증 발급기</h3>
+      <p>주방 프린터, 영수증 발급까지 매장 운영 전 과정을 하나로.</p>
+      <div class="product-tag">주방 연동</div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews Section -->
+<section id="reviews">
+  <div class="reviews-wrapper">
+    <div class="section-header">
+      <div class="section-label">REVIEWS</div>
+      <h2>실제 매장의 이야기</h2>
+    </div>
+    <div class="reviews-container">
+      <div class="reviews-grid" id="reviewsGrid">
+        <div class="review-card">
+          <img src="후기/1-1.jpg" alt="Review 1" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">픽업 대기줄이 길었는데 포스업 도입 후 주문부터 결제까지 훨씬 빨라졌어요. 설치도 하루 만에 끝났습니다.</p>
+            <div class="review-business">Coffee shop</div>
+            <div class="review-owner">카페 운영 · 김O영 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/1-2.jpg" alt="Review 2" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">포스 시스템이 정말 직관적이어서 새로운 직원들도 빠르게 배울 수 있어요. 고객 만족도가 올라갔습니다.</p>
+            <div class="review-business">Café Latte</div>
+            <div class="review-owner">카페 운영 · 이O현 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/2-1.jpg" alt="Review 3" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">메뉴판 디스플레이랑 결제 단말기를 같이 세팅해주셔서 편했어요. 직원들도 금방 적응했습니다.</p>
+            <div class="review-business">샌드위치 & 버거 매장</div>
+            <div class="review-owner">외식업 운영 · 박O민 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/2-2.png" alt="Review 4" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">주문부터 결제까지 매끄럽게 진행되어 고객 대기시간이 크게 단축되었어요.</p>
+            <div class="review-business">버거 하우스</div>
+            <div class="review-owner">외식업 운영 · 최O재 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/2-3.png" alt="Review 5" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">무선 결제 단말기로 테이블 투어가 쉬워졌어요. 점심시간도 한결 수월합니다.</p>
+            <div class="review-business">프레시 스낵</div>
+            <div class="review-owner">외식업 운영 · 정O숙 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/3-1.jpg" alt="Review 6" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">테이블 수가 많아서 걱정했는데 카드단말기 여러 대를 무선으로 연결해서 계산이 훨씬 수월해졌어요.</p>
+            <div class="review-business">바 & 다이닝</div>
+            <div class="review-owner">주류매장 운영 · 이O수 사장님</div>
+          </div>
+        </div>
+        
+        <div class="review-card">
+          <img src="후기/3-2.jpg" alt="Review 7" class="review-image">
+          <div class="review-content">
+            <div class="review-stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <p class="review-quote">고급 주류 매장인데 포스업으로 업그레이드되니 매장 이미지도 좋아졌어요.</p>
+            <div class="review-business">프리미엄 라운지</div>
+            <div class="review-owner">주류매장 운영 · 유O준 사장님</div>
+          </div>
+        </div>
+      </div>
+      <button class="review-carousel-btn prev" onclick="prevReview()">‹</button>
+      <button class="review-carousel-btn next" onclick="nextReview()">›</button>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing">
+  <div class="section-header">
+    <div class="section-label">PRICING</div>
+    <h2>설치비 0원, 월 이용료만 부담하세요</h2>
+    <p class="section-desc">약정, 위약금 걱정 없이 장비별로 필요한 만큼만 이용하세요</p>
+  </div>
+  
+  <div class="pricing-center">
+    <div class="pricing-badge">
+      <span></span>
+      전 상품 설치비 · 출장비 0원
+    </div>
+  </div>
+  
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-name">POS 단말기</div>
+      <div class="pricing-desc">키오스크형 스탠드 포함</div>
+      <div class="pricing-price">
+        <span class="pricing-amount">19,000</span>
+        <span class="pricing-unit">원~</span>
+      </div>
+    </div>
+    
+    <div class="pricing-card">
+      <div class="pricing-name">카드결제 단말기</div>
+      <div class="pricing-desc">유선/무선/휴대형</div>
+      <div class="pricing-price">
+        <span class="pricing-amount">9,000</span>
+        <span class="pricing-unit">원~</span>
+      </div>
+    </div>
+    
+    <div class="pricing-card">
+      <div class="pricing-name">무인 키오스크</div>
+      <div class="pricing-desc">고객 주문용</div>
+      <div class="pricing-price">
+        <span class="pricing-amount">39,000</span>
+        <span class="pricing-unit">원~</span>
+      </div>
+    </div>
+    
+    <div class="pricing-card">
+      <div class="pricing-name">테이블오더</div>
+      <div class="pricing-desc">태블릿 1대 기준</div>
+      <div class="pricing-price">
+        <span class="pricing-amount">5,900</span>
+        <span class="pricing-unit">원~</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="pricing-note">
+    * 매장 규모·업종 및 장비 구성에 따라 정확한 견적은 상담 시 안내드립니다
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq">
+  <div class="section-header">
+    <div class="section-label">FAQ</div>
+    <h2>자주 묻는 질문</h2>
+  </div>
+  
+  <div class="faq-container">
+    <div class="faq-item open">
+      <div class="faq-question" onclick="this.closest('.faq-item').classList.toggle('open')">
+        <span>설치비가 정말 무료인가요?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        네, 전국 어디든 출장비와 설치비 없이 무료로 진행됩니다. 계약 시 추가 비용 없이 안내드린 이용료만 부담하시면 됩니다.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.closest('.faq-item').classList.toggle('open')">
+        <span>계약기간이나 위약금이 있나요?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        별도의 장기 약정이나 위약금 없이 이용하실 수 있으며, 매장 사정에 따라 자유롭게 해지·변경이 가능합니다.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.closest('.faq-item').classList.toggle('open')">
+        <span>기존에 쓰던 카드단말기와 연동되나요?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        기존 결제사·프린터와의 연동 가능 여부는 매장 환경에 따라 다르므로 상담 시 확인 후 최적의 구성을 제안해드립니다.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.closest('.faq-item').classList.toggle('open')">
+        <span>AS나 장애 발생 시 대응은 어떻게 되나요?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        365일 기술지원팀을 운영하고 있으며, 전화 접수 후 신속하게 방문 또는 원격으로 조치해드립니다.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="this.closest('.faq-item').classList.toggle('open')">
+        <span>어떤 업종에 도입 가능한가요?</span>
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        카페, 음식점, 바, 소매점 등 업종에 상관없이 도입 가능하며, 업종별 맞춤 장비 구성을 추천해드립니다.
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Hero Image Slider
+  let currentHeroIndex = 0;
+  const heroImages = document.querySelectorAll('.hero-images-container .hero-image');
+  const heroDotsTotal = 3;
+  
+  function showHeroImage(index) {
+    if (!heroImages.length) return;
+    currentHeroIndex = index % heroImages.length;
+    heroImages.forEach((img, i) => {
+      img.classList.toggle('active', i === currentHeroIndex);
+    });
+    document.querySelectorAll('.hero-image-dots .dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentHeroIndex);
+    });
+  }
+  
+  // Auto rotate hero images every 5 seconds
+  setInterval(() => {
+    currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+    showHeroImage(currentHeroIndex);
+  }, 5000);
+  
+  // Review Carousel - Show 3 cards at a time
+  let currentReviewIndex = 0;
+  const reviewsGrid = document.getElementById('reviewsGrid');
+  const totalReviews = 7;
+  const cardsPerView = 3;
+  const cardWidth = 100 / cardsPerView;
+  
+  function updateReviewCarousel() {
+    const offset = currentReviewIndex * (cardWidth);
+    reviewsGrid.style.transform = `translateX(-${offset}%)`;
+  }
+  
+  function nextReview() {
+    if (currentReviewIndex < totalReviews - cardsPerView) {
+      currentReviewIndex++;
+      updateReviewCarousel();
+    } else {
+      currentReviewIndex = 0;
+      updateReviewCarousel();
+    }
+  }
+  
+  function prevReview() {
+    if (currentReviewIndex > 0) {
+      currentReviewIndex--;
+      updateReviewCarousel();
+    } else {
+      currentReviewIndex = totalReviews - cardsPerView;
+      updateReviewCarousel();
+    }
+  }
+</script>
+
+<!-- CTA Section -->
+<section id="cta" class="cta-section">
+  <div class="cta-box">
+    <div class="cta-text">
+      <h2>지금 상담 신청하고<br>맞춤 견적을 받아보세요</h2>
+      <p>설치비 0원 · 전국 출장 설치 · 365일 기술지원</p>
+    </div>
+    <form class="cta-form" onsubmit="event.preventDefault(); alert('상담 신청이 접수되었습니다.');">
+      <input type="text" placeholder="매장명" required>
+      <input type="tel" placeholder="연락처" required>
+      <button type="submit">무료 상담 신청하기</button>
+    </form>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-badge"></div>
+    <div class="footer-text">포스업</div>
+  </div>
+  <div class="footer-middle">사업자등록번호 000-00-00000 · 대표 홍길동 · 고객센터 1588-0000</div>
+  <div class="footer-right">© 2026 POSUP. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
